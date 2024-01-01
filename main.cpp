@@ -95,23 +95,32 @@ int read_int_negative(string message) {
 float read_flt(string message) {
     string n;
 
+    cout << message;
+
     while(!is_flt(n)) {
+        cin >> n;
         cout << "Wprowadzona wartosc nie jest prawidlowa.\n";
     }
 
-    return abs(stof(n));
+    return stof(n);
 }
 
 // odczytuje i zwraca dodatnia zmienna typu float
 float read_flt_positive(string message) {
     string n;
 
-    while(!is_flt(n)) {
-        cout << "Wprowadzona wartosc nie jest prawidlowa.\n"
+    cout << message;
+
+    do {
+        cin >> n;
+        cout << "Wprowadzona wartosc nie jest prawidlowa.\n";
+    } while(!is_flt(n));
+
+    if (is_negative_flt(is_flt(n))) {
+        return abs(stof(n));
     }
 
-    return stof(n)
-
+    return stof(n);
 }
 
 // wyswietla zawartosc tablicy
@@ -206,25 +215,18 @@ float * sum_negative_int(list<int> lis) {
 float zadanie1(float a, float b, float h) {
     cout << "Program oblicza i zwraca pole powierzchni trapezu.\n";
     float y = (a + b) / 2 * h;
-    printf("Pole trapezu wynosi %0.2f.", y);
+    printf("Pole trapezu wynosi %0.2f.\n\n", y);
     return y;
 }
 
+void zadanie2(float x) {
+    cout << "Program oblicza wartość funkcji y(x) w punkcie x.\n";
+    double y = 0;
+    if (x < 0) y = (0.5 * (x * x) + 1.0/3 * x);
+    else if (x <= 6) y = (sin(x) + 1.0);
+    else y = (x + 3.0);
 
-// "Program, ktory wczytuje kolejne liczby calkowite do momentu wczytania zera.\n";
-// "Oblicza i wypisuje pierwiastek z wczytanej liczby.\n\n";
-void zadanie132() {
-    while (n != 0) {
-        cout << "Program, ktory wczytuje kolejne liczby calkowite do momentu wczytania zera.\n";
-        cout << "Oblicza i wypisuje pierwiastek z wczytanej liczby.\n\n";
-
-        int n = read_int_negative("Wprowadz liczbe calkowita.\n");
-        if (n == 0)
-            return
-
-                    root = sqrt(n);
-        print(root);
-    }
+    printf("Wartosc funkcji f(x) w punkcie %0.2f wynosi %0.2f.\n\n", x, y);
 }
 
 
@@ -240,15 +242,12 @@ int main() {
         int opt = read_int_positive("Wprowadz numer opcji [od 0 - 5].\n");
 
         switch (opt) {
-            case 0:
-
-                break;
-
             case 1:
-                zadanie1(read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie)."), read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie)."), read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie)."));
+                zadanie1(read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie).\n"), read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie).\n"), read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie).\n"));
                 break;
 
             case 2:
+                zadanie2(read_flt("Wprowadz liczbe rzeczywista.\n"));
                 break;
 
             case 3:
