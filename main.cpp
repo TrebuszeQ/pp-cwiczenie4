@@ -78,30 +78,20 @@ int read_int_positive(string message) {
 }
 
 
-// program wczytuje nieujemna i ujemna liczbe calkowita.
-int read_int_negative(string message) {
-    string n;
-
-    while (true) {
-        string n = read_input_str(message);
-
-        if (is_int(n)) return stoi(n);
-        else cout << ("Wprowadzona wartosc nie jest prawidlowa.\n");
-    }
-
-    return -1;
-}
-
 // odczytuje i zwraca zmienna typu float
 float read_flt(string message) {
     string n;
+    bool truth = false;
 
     cout << message;
 
-    while(!is_flt(n)) {
+    do {
         cin >> n;
-        cout << "Wprowadzona wartosc nie jest prawidlowa.\n";
-    }
+
+        if (!is_flt(n)) cout << "Wprowadzona wartosc nie jest prawidlowa.\n";
+        else truth = true;
+
+    } while(!truth);
 
     return stof(n);
 }
@@ -109,13 +99,17 @@ float read_flt(string message) {
 // odczytuje i zwraca dodatnia zmienna typu float
 float read_flt_positive(string message) {
     string n;
+    bool truth = false;
 
     cout << message;
 
     do {
         cin >> n;
-        cout << "Wprowadzona wartosc nie jest prawidlowa.\n";
-    } while(!is_flt(n));
+
+        if (!is_flt(n)) cout << "Wprowadzona wartosc nie jest prawidlowa.\n";
+        else truth = true;
+
+    } while(!truth);
 
     if (is_negative_flt(is_flt(n))) {
         return abs(stof(n));
@@ -123,94 +117,6 @@ float read_flt_positive(string message) {
 
     return stof(n);
 }
-
-//// wyswietla zawartosc tablicy
-//void print_list(list<int> lis) {
-//    if (lis.size() > 0) {
-//        cout << "Lista: ";
-//        int i = 0;
-//
-//        for (int elem : lis) {
-//            cout << elem;
-//
-//            if (i == (lis.size() - 1)) cout << ".\n";
-//            else cout << ", ";
-//            i++;
-//        }
-//    }
-//
-//    else cout << "Lista jest pusta.\n";
-//}
-//
-//
-//// funkcja wczytuje n liczb calkowitych do listy
-//list<int> read_n_ints(int n) {
-//    list<int> lis;
-//
-//    if (n > 0) {
-//        for (int i = 0; i < n; i++) {
-//            lis.push_front(read_int_negative("Wprowadz element listy.\n"));
-//        }
-//
-//    }
-//
-//    else cout << "Lista jest pusta.\n";
-//
-//    // cout << "check" << endl;
-//    // for (int i = 0; i < n; i++) {
-//    //    cout << result[i] << ";";
-//    // }
-//
-//    return lis;
-//}
-//
-//
-//// funkcja dodaje do siebie dodatnie zawartosci args. Zwraca sume i ilosc liczb dodatnich.
-//int * sum_positive_int(list<int> lis) {
-//    int sum = 0;
-//    int count = 0;
-//
-//
-//    for (int elem : lis) {
-//        if (elem > 0) {
-//            sum += elem;
-//            count++;
-//        }
-//    }
-//
-//    static int result[2] = { sum, count };
-//
-//    return result;
-//}
-//
-//
-//// funkcja dodaje do siebie ujemne zawartosci args. Zwraca srednia arytmetyczna i ilosc liczb ujemnych.
-//float * sum_negative_int(list<int> lis) {
-//    int avg = 0;
-//    int count = 0;
-//
-//    for (int elem : lis) {
-//        if (elem < 0) {
-//            avg += elem;
-//            count++;
-//        }
-//    }
-//
-//    static float result[2];
-//
-//    if (count > 0) {
-//        result[0] = abs((1.0f * avg) / (1.0f * count));
-//        result[1] = count;
-//    }
-//
-//    else {
-//        result[0] = 0;
-//        result[1] = count;
-//    }
-//
-//    return result;
-//}
-
 
 // oblicza i zwracaja pole powierzchni trapezu:
 float zadanie1(float a, float b, float h) {
@@ -254,6 +160,17 @@ array<int, 2> coinToss(int x) {
     return {r, o};
 }
 
+bool triangable(float a, float b, float c) {
+    if ((a + b > c) or (b + c > a) or (a + c > b)) return true;
+
+    return false;
+}
+
+double area_of_triangle(float a, float b, float c) {
+    // here, sometimes returns nan
+    return (sqrt((1.0/2* (a + b + c)) * ((1.0/2* (a + b + c) - a)) * ((1.0/2* (a + b + c) + b)) * ((1.0/2* (a + b + c) - c))));
+}
+
 int main() {
     while (true) {
         cout << "Opcje:\n";
@@ -276,13 +193,26 @@ int main() {
 
             case 3: {
                 array<int, 2> res = {0, 0};
-                res = coinToss(read_int_positive("Wprowadz dodatnia liczbe calkowita.\n"));
-                printf("Reszka wypadla %d razy, orzel wypadl %d razy.", res[0], res[1]);
+                res = coinToss(read_int_positive("Ile ma byc rzutow moneta? Podaj dodatnia liczbe calkowita.\n"));
+                printf("Reszka wypadla %d razy, orzel wypadl %d razy.\n", res[0], res[1]);
+
+//                if (res[0] > res[1]) cout << "Reszka wygrala.\n";
+//                else if (res[0] == res[1]) cout << "Remis.\n";
+//                else cout << "Orzel wygral.\n";
+//
+//                cout << endl;
                 break;
             }
             
-            case 4:
+            case 4: {
+                float a = read_flt_positive("Podaj dlugosc odcinka a [dodatnia liczba calkowita].\n");
+                float b = read_flt_positive("Podaj dlugosc odcinka b [dodatnia liczba calkowita].\n");
+                float c = read_flt_positive("Podaj dlugosc odcinka c [dodatnia liczba calkowita].\n");
+
+                if (triangable(a, b, c)) printf("Pole trojkata wynosi: %0.2f cm.\n\n", area_of_triangle(a, b, c));
+                else cout << "Z podanych odcinkow nie mozna stworzyc trojkata.\n\n";
                 break;
+            }
 
             case 5:
                 exit(1);
