@@ -53,6 +53,7 @@ bool is_negative_int(int arg) {
 // funkcja sprawdza czy argument float jest ujemny
 bool is_negative_flt(float arg) {
     if (arg >= 0) return false;
+
     else return true;
 }
 
@@ -111,7 +112,8 @@ float read_flt_positive(string message) {
 
     } while(!truth);
 
-    if (is_negative_flt(is_flt(n))) {
+    if (is_negative_flt(stof(n))) {
+        cout << "Wartosci ujemne beda zamienione na dodatnie.\n";
         return abs(stof(n));
     }
 
@@ -161,14 +163,13 @@ array<int, 2> coinToss(int x) {
 }
 
 bool triangable(float a, float b, float c) {
-    if ((a + b > c) or (b + c > a) or (a + c > b)) return true;
+    if ((a + b > c) and (b + c > a) and (a + c > b)) return true;
 
     return false;
 }
 
 double area_of_triangle(float a, float b, float c) {
-    // here, sometimes returns nan
-    return (sqrt((1.0/2* (a + b + c)) * ((1.0/2* (a + b + c) - a)) * ((1.0/2* (a + b + c) + b)) * ((1.0/2* (a + b + c) - c))));
+    return (sqrt((0.5 * (a + b + c)) * ((0.5 * (a + b + c) - a)) * ((0.5 * (a + b + c) - b)) * ((0.5 * (a + b + c) - c))));
 }
 
 int main() {
@@ -184,7 +185,7 @@ int main() {
 
         switch (opt) {
             case 1:
-                zadanie1(read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie).\n"), read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie).\n"), read_flt_positive("Wprowadz liczbe rzeczywista (liczby ujemne beda zamienione na dodatnie).\n"));
+                zadanie1(read_flt_positive("Wprowadz dlugosc podstawy a [dodatnia liczba rzeczywista].\n"), read_flt_positive("Wprowadz dlugosc podstawy b [dodatnia liczba rzeczywista].\n"), read_flt_positive("Wprowadz wysokosc trapezu [dodatnia liczba rzeczywista].\n"));
                 break;
 
             case 2:
